@@ -2,20 +2,17 @@
 <html lang = 'ja'>
 <head>
     <meta charset='utf-8'>
-    <title>Mission_5-1</title>
+    <title>Mission5</title>
 </head>
 <body>
     <?php
-        // DB接続設定
-        $dsn = 'データベース名';
-        $username = 'ユーザー名';
-        $password = 'パスワード';
+        $dsn = 'mysql:dbname=tb221084db;host=localhost';
+        $username = 'tb-221084';
+        $password = 'uC5PKrnAfA';
         $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
 
         try{
-            // DB接続
             $pdo = new PDO($dsn, $username, $password, $options);
-            // テーブル作成
             $sql = 'CREATE TABLE IF NOT EXISTS Mission5(
             id INT AUTO_INCREMENT PRIMARY KEY,
             name char(20),
@@ -61,7 +58,6 @@
 	                    foreach ($results as $row){
                             if($edit_num == $row['id']){
                                 if($pw == $row['password']){
-                                    $error3 = '';
                                     $id = intval($edit_num);
                                     $sql = 'UPDATE Mission5 SET name = :name, comment = :comment, time = :time, password = :password  WHERE id = :id';
                                     $stmt = $pdo->prepare($sql);
@@ -104,7 +100,6 @@
                         if($del_num == $row['id']){
                             $error4 = '';
                             if($pw == $row['password']){
-                                $error5 = '';
                                 $id = intval($del_num);
                                 $sql = 'DELETE FROM Mission5 WHERE id = :id';
 	                            $stmt = $pdo -> prepare($sql);
@@ -144,27 +139,27 @@
         }
         $pdo = null;
     ?>
-    <form action = '' method = 'post'>
-        <input type = 'hidden' name = 'edit_num' value = <?php if(isset($edit_num)){echo $edit_num;} ?>><br>
-        <input type = 'text' name = 'name' placeholder = '名前' value='<?php if(isset($name)){echo $name;}?>'>
+    <form action='' method='post'>
+        <input type='hidden' name='edit_num' value=<?php if(isset($edit_num)){echo $edit_num;}?>><br>
+        <label>名前<br><input type='text' name='name' value="<?php if(isset($name)){echo $name;}?>"></label>
         <?php if(isset($error1)){echo $error1;}?><br>
-        <input type = 'text' name = 'comment' placeholder = 'コメント'value = '<?php if(isset($comment)){echo $comment;}?>'>
+        <label>コメント<br><input type='text' name='comment' value="<?php if(isset($comment)){echo $comment;}?>"></label>
         <?php if(isset($error2)){echo $error2;}?><br>
-        <input type = 'text' name = 'password' placeholder = 'パスワード'>
+        <label>パスワード<br><input type='text' name='password'></label>
         <?php if(isset($error3)){echo $error3;}?><br>
-        <input type = 'submit' name = 'submit' value = '送信'>
+        <input type='submit' name='submit' value='送信'>
     </form><br>
-    <form action = '' method = 'post'>
-        <input type = 'number' name = 'del_num' placeholder = '削除対象番号'>
+    <form action='' method='post'>
+        <label>削除対象番号<br><input type='number' name='del_num'></label>
         <?php if(isset($error4)){echo $error4;}?><br>
-        <input type = 'text' name = 'password' placeholder = 'パスワード'>
+        <label>パスワード<br><input type='text' name='password'></label>
         <?php if(isset($error5)){echo $error5;}?><br>
-        <input type = 'submit' name = 'delete' value = '削除'>
+        <input type='submit' name='delete' value='削除'>
     </form><br>
-    <form action = '' method = 'post'>
-        <input type = 'number' name = 'edit_num' placeholder = '編集対象番号'>
+    <form action='' method='post'>
+        <label>編集対象番号<br><input type='number' name='edit_num'></label>
         <?php if(isset($error6)){echo $error6;}?><br>
-        <input type = 'submit' name = 'edit' value = '編集'>
+        <input type='submit' name='edit' value='編集'>
     </form>
 </body>
 </html>
